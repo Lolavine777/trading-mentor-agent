@@ -1,0 +1,9 @@
+{
+  "trades": [],
+  "mistake_patterns": {
+    "impulsive_buy": 0,
+    "ignore_stop_loss": 0,
+    "averaging_down": 0,
+    "rsi_trap": 0
+  }
+}

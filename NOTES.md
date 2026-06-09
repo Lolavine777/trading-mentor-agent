@@ -9,3 +9,4 @@
 - Bug 1: ngày hardcode 24/05, fix bằng inject datetime vào prompt
 - Bug 2: model string "gemini-3-flash" không đúng, cần chạy list_models() để lấy string chính xác
 - Tiếp theo: fix 2 bug trên, sau đó build main.py + scheduler.py + Telegram integration
+- Note với agent: đã sửa lỗi 2, do sai tên model rồi;

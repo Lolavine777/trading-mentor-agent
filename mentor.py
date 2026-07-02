@@ -1,6 +1,6 @@
 import google.generativeai as genai
 from pathlib import Path
-from config import GEMINI_API_KEY
+from config import GEMINI_API_KEY, model_name, temperature
 from analyst import analyze_portfolio
 from memory_manager import build_memory_context
 from portfolio import PORTFOLIO
@@ -14,7 +14,7 @@ def load_prompt(name: str) -> str:
 
 def get_model():
     return genai.GenerativeModel(
-        model_name="gemini-3-flash-preview",
+        model_name=model_name,
         system_instruction=load_prompt("morning_brief")
     )
 
@@ -34,7 +34,7 @@ def build_market_data_context(analyses: list) -> str:
 
 def generate_morning_brief() -> str:
     model = genai.GenerativeModel(
-        model_name="gemini-3-flash-preview",
+        model_name=model_name,
         system_instruction=load_prompt("morning_brief")
     )
     symbols = [p["symbol"] for p in PORTFOLIO]
@@ -46,13 +46,13 @@ def generate_morning_brief() -> str:
 
     response = model.generate_content(
         contents=prompt,
-        generation_config={"temperature": 0.7}
+        generation_config={"temperature": temperature}
     )
     return response.text
 
 def generate_evening_review() -> str:
     model = genai.GenerativeModel(
-        model_name="gemini-3-flash-preview",
+        model_name=model_name,
         system_instruction=load_prompt("evening_review")
     )
     symbols = [p["symbol"] for p in PORTFOLIO]
@@ -64,6 +64,6 @@ def generate_evening_review() -> str:
 
     response = model.generate_content(
         contents=prompt,
-        generation_config={"temperature": 0.7}
+        generation_config={"temperature": temperature}
     )
     return response.text

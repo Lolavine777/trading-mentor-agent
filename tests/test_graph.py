@@ -46,3 +46,8 @@ def test_phase_1_graph_execution():
     assert "final_response" in final_state, "State bị thiếu trường final_response"
     assert len(final_state["final_response"]) > 0, "final_response không được rỗng"
     assert "analyst_output" in final_state, "State bị thiếu trường analyst_output"
+    
+    # Verify Phase 2 requirements (Parallel Nodes)
+    assert "market_data" in final_state, "State bị thiếu trường market_data"
+    assert "macro_data" in final_state, "State bị thiếu trường macro_data"
+    assert "portfolio_data" in final_state, "State bị thiếu trường portfolio_data"

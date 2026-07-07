@@ -16,5 +16,8 @@
 - Xong: Xây dựng core LangGraph trong `graph.py` (State Reducer, Supervisor Routing, Data Nodes).
 - Xong: Áp dụng TDD viết `tests/test_graph.py` chạy Pass luồng E2E Graph.
 - Xong: Tạo `main.py`, kết nối Vnstock và Gemini (`gemini-3.5-flash`), xuất báo cáo ra Terminal. Đã fix lỗi Unicode Windows.
-- Ngữ cảnh kiến trúc: Hệ thống đang chạy Phase 1 (Chỉ có Market Agent lấy dữ liệu cho Analyst). Hàm định tuyến `route_supervisor` dùng Conditional Edge.
-- Tiếp theo (Phase 2): Tích hợp Macro Agent (yfinance) và Portfolio Agent chạy song song (Parallel Execution) với Market Agent. Lắp ráp API Telegram (Phase 3).
+
+- Xong: Triển khai Phase 2: Multi-Agent & Data Sources (Fan-out / Fan-in parallel execution trong LangGraph).
+- Xong: Thêm `macro.py` (yfinance), `portfolio_node`, và xử lý Graceful Degradation ở `market_node`.
+- Xong: Update prompt LLM để gộp Vĩ mô, Danh mục và Thị trường vào chung bản tin sáng.
+- Tiếp theo (Phase 3): Tích hợp API Telegram (aiogram) và Cron scheduler (APScheduler) để biến thành Bot tương tác thực thụ.

@@ -32,6 +32,29 @@ def build_market_data_context(analyses: list) -> str:
         )
     return "\n".join(lines)
 
+def build_macro_context(macro_data: dict) -> str:
+    if not macro_data:
+        return "## MACRO DATA\n(Chưa có dữ liệu vĩ mô)"
+    if macro_data.get("error"):
+        return f"## MACRO DATA\n(Lỗi lấy dữ liệu vĩ mô: {macro_data['error']})"
+        
+    lines = ["## MACRO DATA\n"]
+    if macro_data.get("usd_vnd"):
+        lines.append(f"- Tỷ giá USD/VND: {macro_data['usd_vnd']:,}")
+    if macro_data.get("dow_jones"):
+        dj = macro_data['dow_jones']
+        lines.append(f"- Dow Jones: {dj['price']:,} (Thay đổi: {dj['change_pct']}%)")
+    return "\n".join(lines)
+
+def build_portfolio_context(holdings: list) -> str:
+    if not holdings:
+        return "## PORTFOLIO\n(Danh mục trống hoặc không lấy được dữ liệu)"
+        
+    lines = ["## PORTFOLIO\n"]
+    for item in holdings:
+        lines.append(f"- {item['symbol']}: {item['quantity']} cổ phiếu, giá vốn {item['buy_price']}")
+    return "\n".join(lines)
+
 def generate_morning_brief() -> str:
     model = genai.GenerativeModel(
         model_name=model_name,

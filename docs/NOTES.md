@@ -21,3 +21,9 @@
 - Xong: Thêm `macro.py` (yfinance), `portfolio_node`, và xử lý Graceful Degradation ở `market_node`.
 - Xong: Update prompt LLM để gộp Vĩ mô, Danh mục và Thị trường vào chung bản tin sáng.
 - Tiếp theo (Phase 3): Tích hợp API Telegram (aiogram) và Cron scheduler (APScheduler) để biến thành Bot tương tác thực thụ.
+
+## 2026-07-09 session 5
+- Xong: Tích hợp thư viện `aiogram` để tạo Telegram Bot và `APScheduler` để hẹn giờ.
+- Xong: Áp dụng TDD (viết fail tests trước khi code) cho `bot.py` và `scheduler.py`.
+- Xong: Update `graph.py` thêm `tutor_node` nhận diện chat tự do và giải thích kiến thức đầu tư dựa trên Memory.
+- Tiếp theo (Phase 4): Nâng cấp `supervisor_node` từ Rule-based tĩnh thành Semantic Router (dùng LLM) để tự phân tích intent và điều hướng tới các node phù hợp thay vì code cứng `if/else`.

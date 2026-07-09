@@ -73,11 +73,26 @@ def formatter_node(state: AgentState):
     final_text = f"🌞 **BẢN TIN SÁNG** 🌞\n\n{raw_text}\n\n_Chúc sếp một ngày giao dịch hiệu quả!_"
     return {"final_response": final_text}
 
+def tutor_node(state: AgentState):
+    user_intent = state.get("user_intent", "")
+    memory = build_memory_context()
+    
+    prompt = f"{memory}\n\nNgười dùng hỏi: {user_intent}\n\nHãy phân tích và trả lời như một người thầy dạy về đầu tư chứng khoán."
+    model = get_model(prompt_name="tutor")
+    
+    response = model.generate_content(
+        contents=prompt,
+        generation_config={"temperature": temperature}
+    )
+    return {"final_response": response.text}
+
 # --- 3. Hàm Router (Định tuyến) ---
 # Trả về list các node để chạy song song (LangGraph Fan-out)
 def route_supervisor(state: AgentState) -> list[str]:
     if state.get("trigger_type") == "morning_brief":
         return ["market", "macro", "portfolio"]
+    elif state.get("trigger_type") == "chat":
+        return ["tutor"]
     return ["END"]
 
 # --- 4. Lắp ráp đồ thị (Graph) ---
@@ -91,6 +106,7 @@ def build_graph():
     workflow.add_node("portfolio", portfolio_node)
     workflow.add_node("analyst", analyst_node)
     workflow.add_node("formatter", formatter_node)
+    workflow.add_node("tutor", tutor_node)
     
     # Định nghĩa luồng chạy (Edges)
     workflow.add_edge(START, "supervisor")
@@ -99,7 +115,7 @@ def build_graph():
     workflow.add_conditional_edges(
         "supervisor",
         route_supervisor,
-        ["market", "macro", "portfolio", END]
+        ["market", "macro", "portfolio", "tutor", END]
     )
     
     # Fan-in: hội tụ về analyst
@@ -109,6 +125,7 @@ def build_graph():
     
     workflow.add_edge("analyst", "formatter")
     workflow.add_edge("formatter", END)
+    workflow.add_edge("tutor", END)
     
     # Biên dịch (Compile)
     app = workflow.compile()

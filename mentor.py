@@ -12,10 +12,11 @@ PROMPTS_DIR = Path(__file__).parent / "prompts"
 def load_prompt(name: str) -> str:
     return (PROMPTS_DIR / f"{name}.txt").read_text(encoding="utf-8")
 
-def get_model():
+def get_model(prompt_name: str = "morning_brief"):
+    instruction = load_prompt(prompt_name) if prompt_name else None
     return genai.GenerativeModel(
         model_name=model_name,
-        system_instruction=load_prompt("morning_brief")
+        system_instruction=instruction
     )
 
 def build_market_data_context(analyses: list) -> str:

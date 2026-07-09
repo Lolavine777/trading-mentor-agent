@@ -2,11 +2,13 @@ import os
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart, Command
+from aiogram.client.default import DefaultBotProperties
 from config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
 from graph import build_graph
+from utils import format_for_telegram
 
 # Khởi tạo bot và dispatcher
-bot = Bot(token=TELEGRAM_TOKEN)
+bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 dp = Dispatcher()
 app = build_graph()
 
@@ -27,7 +29,7 @@ async def handle_brief_command(message: types.Message):
     
     # Chạy LangGraph (đồng bộ) trên một thread khác để không block Telegram event loop
     final_state = await asyncio.to_thread(app.invoke, {"trigger_type": "morning_brief"})
-    await message.answer(final_state["final_response"])
+    await message.answer(format_for_telegram(final_state["final_response"]))
 
 @dp.message()
 async def handle_chat_message(message: types.Message):
@@ -39,7 +41,7 @@ async def handle_chat_message(message: types.Message):
         app.invoke, 
         {"trigger_type": "chat", "user_intent": message.text}
     )
-    await message.answer(final_state["final_response"])
+    await message.answer(format_for_telegram(final_state["final_response"]))
 
 async def start_bot():
     print("🤖 Telegram Bot started!")

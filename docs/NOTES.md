@@ -27,3 +27,4 @@
 - Xong: Áp dụng TDD (viết fail tests trước khi code) cho `bot.py` và `scheduler.py`.
 - Xong: Update `graph.py` thêm `tutor_node` nhận diện chat tự do và giải thích kiến thức đầu tư dựa trên Memory.
 - Tiếp theo (Phase 4): Nâng cấp `supervisor_node` từ Rule-based tĩnh thành Semantic Router (dùng LLM) để tự phân tích intent và điều hướng tới các node phù hợp thay vì code cứng `if/else`.
+- Xong (Bug Fix): Đã xử lý lỗi compile Markdown trên Telegram bằng cách thêm `utils.py` để chuyển định dạng sang Telegram HTML (hỗ trợ `<b>`, `<i>`, `<code>`, `<a>`) và cấu hình `parse_mode="HTML"` cho Bot.
